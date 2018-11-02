@@ -3,111 +3,111 @@ INCLUDE MACROSPALIN.LIB
 ;                     DEFINICION DEL SEGMENTO DE DATOS
 ;------------------------------------------------------------------------------
 DATOS SEGMENT
-    
-    ;Portada Inicial
-    
-    Instrucciones dw '  ',0ah,0dh
-dw ' ',0ah,0dh
-dw ' ',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh                                        
-dw '          ||        Instituto Tecnologico de Costa Rica       ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Ingenieria En Computacion                 ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Proyecto Ensamblador 8086                 ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh          
-dw '          ||        Alyson Retana Gamboa                      ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Randald Villegas Brenes                   ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||        Sede San Carlos                           ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||        2018                                      ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Presione una tecla para empezar           ||',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '$',0ah,0dh           
-        
+            
+            ;Portada Inicial
+            
+        Instrucciones dw '  ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh                                        
+        dw '          ||        Instituto Tecnologico de Costa Rica       ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Ingenieria En Computacion                 ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Proyecto Ensamblador 8086                 ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh          
+        dw '          ||        Alyson Retana Gamboa                      ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Randald Villegas Brenes                   ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||        Sede San Carlos                           ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||        2018                                      ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Presione una tecla para empezar           ||',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '$',0ah,0dh           
+                
+                 
+                 ;Pantalla para Cantidad de jugadores
+            
+        CantidadJugadores dw '  ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh                                        
+        dw '          ||        Bienvenido                                ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Al Juego de los Puntos                    ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        Por Favor                                 ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh          
+        dw '          ||        Seleccione la cantidad                    ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||        De Jugadores para la Partida              ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||        Presione las teclas numericas             ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||        2, 3 o 4 para seleccionar los Jugadores   ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '$',0ah,0dh           
+                
+                     ;Pantalla para cuando se rinde el jugador 2   
+        Victoria1 dw '  ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '          ||               GANADOR!!!                         ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh  
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||              El jugador 2 se ha rendido!         ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh                                        
+        dw '          ||              Juego Finalizado!!                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '$',0ah,0dh        
+                          
+                      ;Pantalla para cuando se rinde el jugador 1    
+        Victoria2 dw '  ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '          ||               GANADOR!!!                         ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh  
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||              El jugador 1 se ha rendido!         ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh                                        
+        dw '          ||              Juego Finalizado!!                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '$',0ah,0dh                 
          
-         ;Pantalla para Cantidad de jugadores
-    
-    CantidadJugadores dw '  ',0ah,0dh
-dw ' ',0ah,0dh
-dw ' ',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh                                        
-dw '          ||        Bienvenido                                ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Al Juego de los Puntos                    ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        Por Favor                                 ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh          
-dw '          ||        Seleccione la cantidad                    ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||        De Jugadores para la Partida              ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||        Presione las teclas numericas             ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||        2, 3 o 4 para seleccionar los Jugadores   ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '$',0ah,0dh           
-        
-             ;Pantalla para cuando se rinde el jugador 2   
-Victoria1 dw '  ',0ah,0dh
-dw ' ',0ah,0dh
-dw ' ',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '          ||               GANADOR!!!                         ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh  
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||              El jugador 2 se ha rendido!         ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh                                        
-dw '          ||              Juego Finalizado!!                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '$',0ah,0dh        
-                  
-              ;Pantalla para cuando se rinde el jugador 1    
-Victoria2 dw '  ',0ah,0dh
-dw ' ',0ah,0dh
-dw ' ',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '          ||               GANADOR!!!                         ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh  
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh 
-dw '          ||              El jugador 1 se ha rendido!         ||',0ah,0dh 
-dw '          ||                                                  ||',0ah,0dh                                        
-dw '          ||              Juego Finalizado!!                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '          ||                                                  ||',0ah,0dh
-dw '           ====================================================',0ah,0dh
-dw '$',0ah,0dh                 
-         
-;**********************************************************************************  
+        ;Variable para instrucciones del menu  
         opciones1 db "================================================================================","$"
         opciones2 db "                    ++++++++++INSTRUCCIONES DE JUEGO++++++++++                  ","$"
        
@@ -121,11 +121,11 @@ dw '$',0ah,0dh
         espacio db 10,13,'$' 
         
         ;Mensaje que solicita una entrada
-        pregunta1 db 13,10,'Digite un caracter para el jugador 1: ','$'
-        pregunta2 db 13,10,'Digite un caracter para el jugador 2: ','$'
-        pregunta3 db 13,10,'Digite un caracter para el jugador 3: ','$'
-        pregunta4 db 13,10,'Digite un caracter para el jugador 4: ','$'
-        preguntaNivel db 13,10,'Selecione ("1" o "2" o "3") para el nivel de dificultad ','$'
+        pregunta1 db 13,10,'             Digite un caracter para el jugador 1: ','$'
+        pregunta2 db 13,10,'             Digite un caracter para el jugador 2: ','$'
+        pregunta3 db 13,10,'             Digite un caracter para el jugador 3: ','$'
+        pregunta4 db 13,10,'             Digite un caracter para el jugador 4: ','$'
+        preguntaNivel db 13,10,'         Selecione ("1" o "2" o "3") para el nivel de dificultad ','$'
         
         ;CARACTER
         ;Jugador 1 
@@ -139,13 +139,19 @@ dw '$',0ah,0dh
         
         ;PUNTOS
         ;Jugador 1 
-        puntos1 db 48,"$"
+        puntos1 dw 48,"$"
         ;Jugador 2
-        puntos2 db 48,"$"
+        puntos2 dw 48,"$"
         ;Jugador 3
-        puntos3 db 48,"$"
+        puntos3 dw 48,"$"
         ;Jugador 4
-        puntos4 db 48,"$"
+        puntos4 dw 48,"$"
+                              
+        ;Puntos maximos de la matriz                              
+        puntosMaxNivel1 dw 10h     ;16 
+        puntosMaxNivel2 dw 51h     ;81
+        puntosMaxNivel3 dw 015Fh   ;351      
+        
         
         ;aux para rol del juego
         jugadorActual db 49h ,"$"     
@@ -158,7 +164,11 @@ dw '$',0ah,0dh
         Matriz1 db '* * * * *',"$"
         Matriz2 db '* * * * * * * * * *',"$"
         Matriz3 db '* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *',"$"
-                          
+        
+        Matriz100 db ' ? ? ? ? ',"$"
+        Matriz200 db ' ? ? ? ? ? ? ? ? ? ',"$"
+        Matriz300 db ' ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ',"$"                  
+        limpiarUltimaLinea db '                                                                               ',"$"                  
         ;Variable aux para servicios
         servicio db ,"$"  
         
@@ -197,9 +207,9 @@ dw '$',0ah,0dh
        
         
         ;signos para imprecion
-        SinSigno db " ","$"
-        Signo db "","$" 
-        
+        SignoP db 17h
+        SignoI db 1dh 
+        Signo db 17h
         
         ;Variables de msjs del programa
         recargando db "Reiniciando el Juego...!","$"        
@@ -426,12 +436,11 @@ CICLOJUEGO2: ;Ciclo Para iniciar el juego de 2 jugadores
 ;______________________________________________________________________________
 MODOVIDEO2: ;Inicio del modo de video 
 
+    colores 0111b         ;Color gris
     mov ah, 13h           ;Establecer modo de Video
     mov al, 02h           ;Resolucion 80*25
     mov bh, 03h           ;Numero de pagina
     int 10h
-    
-    colores 0111b         ;Color gris
     
     call Menu2            ;Imprime el menu
     jmp compararNivel     ;Saltamos de etiqueta
@@ -473,16 +482,17 @@ GAME2: ;Inicio de la logica del juego
 ;              Comparacion de click del mouse en el juego      
 ;##################################################################################     
         
+    
     mov bx, 0000          ;Limpiamos la variable
     
     mov ax, 03h           ;Obtiene las posiciones del mouse
     int 33h               ;INT mouse
                           
     cmp bx,1              ;Cpm click Izquierdo
-    ;je VerificarRestricciones ;Vamos a verificar las restricciones
+    je VerificarRestricciones;Vamos a verificar las restricciones
     
-    cmp bx,2             ;Cpm click Derecho
-    je call sonido       ;Si es igual Saltamos de etiqueta    
+    ;cmp bx,2             ;Cpm click Derecho
+    ;je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -595,11 +605,11 @@ GAME3: ;Inicio de logica del juego
     mov ax, 03h           ;Obtiene las posiciones del mouse
     int 33h               ;INT mouse
                           
-    cmp bx,1              ;Cpm click Izquierdo
+    ;cmp bx,1              ;Cpm click Izquierdo
     ;je verificarPosicion  ;Si es igual Saltamos de etiqueta    
     
-    cmp bx,2
-    je call sonido       ;Si es igual Saltamos de etiqueta    
+    ;cmp bx,2
+    ;je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -706,11 +716,11 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     mov ax, 03h           ;Obtiene las posiciones del mouse
     int 33h               ;INT mouse
                           
-    cmp bx,1              ;Cpm click Izquierdo
+    ;cmp bx,1              ;Cpm click Izquierdo
     ;je verificarPosicion  ;Si es igual Saltamos de etiqueta    
     
-    cmp bx,2
-    je call sonido       ;Si es igual Saltamos de etiqueta    
+    ;cmp bx,2
+    ;je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -910,12 +920,125 @@ INFO4:;informacion del usuario 4 para cuando esta en el rol
 
     ret                        
 ;______________________________________________________________________________
+VERIFICARRESTRICCIONES:;se establecen las restricciones para la logica de los niveles
 
-
-
+    cmp nivel,31h         ;Se compara el nivel con 1
+    je  restricciones1     ;si es igual nos vamos a la etiqueta
+    
+    cmp nivel, 32h        ;Se compara el nivel con 2
+    je  restricciones2     ;si es igual nos vamos a la etiqueta
+    
+    cmp nivel, 33h        ;Se compara el nivel con 3
+    je  restricciones3     ;si es igual nos vamos a la etiqueta
+    ret
+;______________________________________________________________________________
+RESTRICCIONES1:;restricciones para el nivel 1
+    
+        call obtenerposicion  ;Guardamos la posicion del mouse x,y
+    
+;______________________________________________________________________________
+LADOIZQ:
+        cmp posx, 23h     ;comparamos el valor de x con los limites iniciales de las columnas
+        jae LadoDer       ;Si estan dentro de los limites entra
+        call sonido
+        jmp OtraVez
+        
+;______________________________________________________________________________
+LadoDer:
+        cmp posx, 2dh     ;comparamos el valor de x con los limites finales de las columnas
+        jbe LadoArr       ;Si estan dentro de los limites entra
+        call sonido 
+        jmp OtraVez
+    
+;______________________________________________________________________________    
+LadoArr:                  ;comparamos el valor de y con los limites iniciales de las filas
+        cmp posy, 05h     ;Si estan dentro de los limites entra
+        jae LadoAba
+        call sonido 
+        jmp OtraVez
+    
+;______________________________________________________________________________    
+LadoAba:                  ;comparamos el valor de y con los limites finales de las filas
+        cmp posy, 0Fh
+        jbe VerificarColor 
+        call sonido
+        jmp OtraVez
+;______________________________________________________________________________        
+VerificarColor:;Se analizan los colores que hay en la matriz
+        
+        
+        
+        cmp ah,0000b ;Verificamos si es color de fondo es negro
+        je pintarcolor
+        jmp otravez
+        
+        gotoxy posx,posy
+        
+        mov ah, 08h ;leer un caracter y atributo    
+        mov bh,03h  ;Pagina de video
+        int 10h
+        ;;;;;;;;;;;;;;;;;;;;;;;;
+        
+        
+        
+        cmp al,2ah  ;Comparamos con las posiciones de los puntos
+        je OtraVez
+        
+        cmp al,3fh  ;Comparamos con las posiciones de los signos de pregunta 
+        je OtraVez
+        
+        cmp al,17h  ;Comparamos con las posiciones de los signos para arriba 
+        je OtraVez
+        
+        cmp al,1dh  ;Comparamos con las posiciones de los signos para abajo 
+        je OtraVez 
+            
+;______________________________________________________________________________        
+PINTARCOLOR:
+        
+        call VERIFICARJUGADOR 
+            
+        ;CALL obtenerposicion  ;Busca la posicion del mouse
+        gotoxy posX,posY      ;Va a la posicion
+        call obtenerSigno     ;Proceso para saber el lado de la linea
+        mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+        mov al, signo         ;Se carga el caracter
+        mov bl, col           ;Color del jugador
+        mov cx, 01h           ;Cantidad de veces que se va a imprimir
+        int 10h               ;Teclado
+        
+        
+        mov al,00             ;Limpiamos los registros
+        mov ah,06             ;Entrada sin eco
+        mov dl,255            ;se define los caracteres de la tabla ascii
+        int 21h
+        
+     
+;______________________________________________________________________________        
+COMPARARRESULTADOS:
+     
+     
+;______________________________________________________________________________    
+OTRAVEZ:
+       cmp numeroJugadores, 32h
+       je game2
+       
+       cmp numeroJugadores, 33h
+       je game3
+       
+       cmp numeroJugadores, 34h
+       je game4                                                                         
+                                                                               
+                                                                               
+;______________________________________________________________________________
+RESTRICCIONES2:;restricciones para el nivel 2
+    call obtenerposicion  ;Guardamos la posicion del mouse x,y
 
 ;______________________________________________________________________________
+RESTRICCIONES3:;restricciones para el nivel 3
+    call obtenerposicion  ;Guardamos la posicion del mouse x,y
 
+;______________________________________________________________________________
 
 ;______________________________________________________________________________  
 ;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                            
@@ -966,10 +1089,14 @@ MATRIZ10X40 proc near: ;Proceso para imprimir matrix de 10 x 40
        gotoxy columna, fila;vamos a la posicion mxn
        imprime matriz3     ;imprimimos la variable
        inc fila            ;sumamos 2 posiciones
+       gotoxy columna, fila;vamos a la posicion mxn
+       imprime matriz300     ;imprimimos la variable
        inc fila
                            ;hacemos las iteraciones para las filas
        loop ciclo3
-                           ;si es igual finalizamos el proceso
+       dec fila 
+       gotoxy columna,fila
+       imprime limpiarUltimaLinea                    ;si es igual finalizamos el proceso
        ret                 ;si no es igual brincamos al ciclo
 endp 
 ;______________________________________________________________________________                           
@@ -983,9 +1110,14 @@ MATRIZ10X10 proc near: ;Proceso para imprimir matrix de 10 x 10
        gotoxy columna, fila;vamos a la posicion mxn
        imprime matriz2     ;imprimimos la variable
        inc fila            ;sumamos 2 posiciones
+       gotoxy columna, fila;vamos a la posicion mxn
+       imprime matriz200     ;imprimimos la variable
        inc fila
                            ;hacemos las iteraciones para las filas
        loop ciclo2
+       dec fila 
+       gotoxy columna,fila
+       imprime limpiarUltimaLinea
        ret                 ;si es igual finalizamos el proceso
 endp
 ;______________________________________________________________________________                           
@@ -996,12 +1128,18 @@ MATRIZ5X5 proc near: ;Proceso para imprimir matrix de 5 x 5
    
    mov cx,5h               ;establecemos 5 iteraciones
    ciclo1:
+       
        gotoxy columna, fila;vamos a la posicion mxn
        imprime matriz1     ;imprimimos la variable
        inc fila            ;sumamos 2 posiciones
+       gotoxy columna, fila;vamos a la posicion mxn
+       imprime matriz100    ;imprimimos la variable
        inc fila
                             
        loop ciclo1         ;hacemos las iteraciones para las filas
+       dec fila 
+       gotoxy columna,fila
+       imprime limpiarUltimaLinea
        ret                 ;si es igual finalizamos el proceso
 endp
 ;______________________________________________________________________________                           
@@ -1014,8 +1152,8 @@ SONIDO proc near:;Crea un sonido si la tecla es diferente a las que dice el menu
        int 21h             ;INT teclado
 
 endp               ;Cierre de proceso
-    ;______________________________________________________________________________
- MENU proc near:;Proceso que imprime el menu y las instrucciones
+;______________________________________________________________________________
+MENU proc near:;Proceso que imprime el menu y las instrucciones
     
     gotoxy 00h,14h
     imprime opciones1     ;Imprime linea
@@ -1089,7 +1227,79 @@ MENU2 proc near:;Proceso que imprime el menu para 2 jugadores para la opcion de 
     ret              
 endp 
 
+;______________________________________________________________________________                             
+SIGUIENTEJUGADOR proc near: ;Proceso para pasar al siguiente jugador
+    
+    cmp jugadorActual,049h ;Comparamos con 1
+    jne jugador2           
+    mov jugadorActual,050h ;Si es igual movemos al siguiente
+    ret
+    
+    jugador2:       
+    cmp jugadorActual,050h ;Comparamos con 2
+    jne jugador3           ;Si no es igual se verifica el siguiente
+    mov jugadorActual,051h ;Si es igual movemos al siguiente
+    ret
+    
+    jugador3:       
+    cmp jugadorActual,051h ;Comparamos con 3
+    jne call jugador4      ;Si no es igual se verifica el siguiente
+    mov jugadorActual,052h ;Si es igual movemos al siguiente
+    ret
+    
+    jugador4:       
+    mov jugadorActual,049h ;Si no es ninguno de los anteriores es el #4 y se actualiza la posicion
+    ret
+           ;Si es igual se actualiza el color
+      
+    ret
+endp  
+;______________________________________________________________________________                             
+COLOR1 proc near:                                       
+                                       
+    mov col,1010b       ; color verde
+    ret
+    
 
+endp                                       
+;______________________________________________________________________________                             
+COLOR2 proc near:
+    
+    mov col,1110b       ;color amarillo
+    ret
+
+endp
+;______________________________________________________________________________                             
+COLOR3 proc near:
+    
+    mov col,0100b       ;color rojo 
+    ret 
+      
+endp
+;______________________________________________________________________________                             
+COLOR4 proc near:
+    
+    mov col,1001b       ;color azul  
+    ret
+      
+endp
+;______________________________________________________________________________                             
+VERIFICARJUGADOR proc near: ;Proceso para establecer el color del jugador en uso
+    
+    cmp jugadorActual,049h ;Comparamos con 1
+    je call color1         ;Si es igual se actualiza el color
+    
+    cmp jugadorActual,050h ;Comparamos con 2
+    je call color2         ;Si es igual se actualiza el color
+    
+    cmp jugadorActual,051h ;Comparamos con 3
+    je call color3         ;Si es igual se actualiza el color
+    
+    cmp jugadorActual,052h ;Comparamos con 4
+    je call color4         ;Si es igual se actualiza el color
+      
+    ret
+endp  
 ;______________________________________________________________________________                           
 
 OBTENERPOSICION proc near:;Proceso para guardar en variables las posiciones del mouse                          
@@ -1108,6 +1318,36 @@ OBTENERPOSICION proc near:;Proceso para guardar en variables las posiciones del 
     ret
 endp
 
+;______________________________________________________________________________
+ SIGNOPAR proc near:
+    
+    mov dh,signoP         ;se mueve el valor dependiendo de la posicion de la matriz
+    mov signo,dh 
+   
+    
+endp
+;______________________________________________________________________________
+SIGNOIMPAR proc near:
+    
+    mov dh,signoI         ;se mueve el valor dependiendo de la posicion de la matriz
+    mov signo,dh   
+   
+endp
+;______________________________________________________________________________               
+obtenerSigno proc near:   ;Proceso para analizar la posicion en "Y" y el signo correspondiente
+    
+    mov dh,posy           ;Guardamos la posicion de Y
+    mov auxy, dh
+                          ;Se divide entre 2
+    div auxy,02h         ;Se compara el residuo con 0
+    cmp ah, 0h            ;si es 0 entonces es par
+    je signoPar
+                          ;si es 1 es impar
+    cmp ah, 0h
+    je signoImpar
+     
+    RET
+endp
 ;______________________________________________________________________________               
 
 SALIR:;Para finalizar el programa
