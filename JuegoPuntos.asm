@@ -1247,7 +1247,7 @@ DIBUJARArriba proc near: ;P
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h  
         
-        
+        call sumarPuntos
         ;imprime player1       ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
         mov turnoGanado,01h
@@ -1279,6 +1279,8 @@ DIBUJARABAJO proc near:
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h
         ;imprime player1       ;$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        
+        call sumarPuntos
         
         cmp turnoGanado,01h
         je otraVez           ;sI 
@@ -1500,6 +1502,7 @@ DIBUJARIZQUIERDA proc near:
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h
         
+        call sumarPuntos
         ;imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         mov turnoGanado,01h
         
@@ -1530,6 +1533,7 @@ DIBUJARDERECHA proc near:
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h                              
         
+        call sumarPuntos
         ;imprime player1        ;$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
         cmp turnoGanado,01h
@@ -1617,6 +1621,48 @@ LadoAba3:                  ;comparamos el valor de y con los limites finales de 
         jmp OtraVez
 
 
+
+;______________________________________________________________________________                             
+SUMAR1 proc near:
+        add puntos1,01h
+        ret
+endp
+
+;______________________________________________________________________________                             
+SUMAR2 proc near:
+        add puntos2,01h
+        ret
+endp
+
+;______________________________________________________________________________                             
+SUMAR3 proc near:
+       add puntos3,01h
+       ret
+endp
+
+;______________________________________________________________________________                             
+SUMAR4 proc near:
+       add puntos4,01h
+       ret
+endp
+;______________________________________________________________________________                             
+SUMARPUNTOS proc near: ;Proceso para sumar puntos
+    
+    cmp jugadorActual,049h ;Comparamos con 1
+    je call sumar1         ;Si es igual se actualiza el puntuaje
+    
+    cmp jugadorActual,050h ;Comparamos con 2
+    je call sumar2         ;Si es igual se actualiza el puntuaje
+    
+    cmp jugadorActual,051h ;Comparamos con 3
+    je call sumar3         ;Si es igual se actualiza el puntuaje
+    
+    cmp jugadorActual,052h ;Comparamos con 4
+    je call sumar4         ;Si es igual se actualiza el puntuaje
+      
+    ret
+endp  
+;______________________________________________________________________________                           
 
 
 ;______________________________________________________________________________
