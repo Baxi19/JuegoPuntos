@@ -198,8 +198,8 @@ DATOS SEGMENT
         Col db 0000
         Car db ,"$"
         
-        auxX db ,"$"
-        auxY db ,"$"
+        auxX db 0000
+        auxY db 0000
         
         PosicionAnteriorX db ,"$"
         PosicionAnteriorY db ,"$"
@@ -945,7 +945,7 @@ LADOIZQ:
         
 ;______________________________________________________________________________
 LadoDer:
-        cmp posx, 2dh     ;comparamos el valor de x con los limites finales de las columnas
+        cmp posx, 2bh     ;comparamos el valor de x con los limites finales de las columnas
         jbe LadoArr       ;Si estan dentro de los limites entra
         call sonido 
         jmp OtraVez
@@ -959,27 +959,17 @@ LadoArr:                  ;comparamos el valor de y con los limites iniciales de
     
 ;______________________________________________________________________________    
 LadoAba:                  ;comparamos el valor de y con los limites finales de las filas
-        cmp posy, 0Fh
+        cmp posy, 0dh
         jbe VerificarColor 
         call sonido
         jmp OtraVez
 ;______________________________________________________________________________        
 VerificarColor:;Se analizan los colores que hay en la matriz
         
-        
-        
-        cmp ah,0000b ;Verificamos si es color de fondo es negro
-        je pintarcolor
-        jmp otravez
-        
         gotoxy posx,posy
         
-        mov ah, 08h ;leer un caracter y atributo    
-        mov bh,03h  ;Pagina de video
+        mov ah, 08h ;leer un caracter y atributo  
         int 10h
-        ;;;;;;;;;;;;;;;;;;;;;;;;
-        
-        
         
         cmp al,2ah  ;Comparamos con las posiciones de los puntos
         je OtraVez
@@ -992,13 +982,26 @@ VerificarColor:;Se analizan los colores que hay en la matriz
         
         cmp al,1dh  ;Comparamos con las posiciones de los signos para abajo 
         je OtraVez 
-            
+                    
+                    
+        cmp al,player1  ;Comparamos con el catacter del jugador 1
+        je OtraVez
+        
+        cmp al,player2  ;Comparamos con el catacter del jugador 2
+        je OtraVez
+                    
+        cmp al,player3  ;Comparamos con el catacter del jugador 3
+        je OtraVez
+        
+        cmp al,player4  ;Comparamos con el catacter del jugador 4
+        je OtraVez
+         
+                    
+        jmp pintarColor    
 ;______________________________________________________________________________        
 PINTARCOLOR:
         
-        call VERIFICARJUGADOR 
-            
-        ;CALL obtenerposicion  ;Busca la posicion del mouse
+        call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
         gotoxy posX,posY      ;Va a la posicion
         call obtenerSigno     ;Proceso para saber el lado de la linea
         mov ah, 09h           ;Escribe el caracter en la posicion del cursor
@@ -1016,8 +1019,522 @@ PINTARCOLOR:
      
 ;______________________________________________________________________________        
 COMPARARRESULTADOS:
-     
-     
+        
+        mov ch, signo          ;Movemos el valor a un registro
+        
+        cmp signoI,ch          ;verificamos si el signo era impar
+        je verificarAyA        ;Si es impar verificamos los cuadros de arriba y abajo
+        
+        cmp signoP,ch          ;verificamos si el signo era par
+        je verificarIyD        ;Si es par verificamos los cuadros de izquierda y derecha
+        
+;______________________________________________________________________________ 
+VERIFICARAYA:
+       ;Arriba  
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+       
+        
+        dec auxX               ;Decrementamos el valor de (x-1) y (y-1)
+        dec auxY
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h ;leer un caracter y atributo  
+        int 10h
+        
+        
+        cmp al,17h  ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion2
+        
+        cmp al,1dh  ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion2
+        
+        jmp Comparacion4
+        
+Comparacion2:
+         
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        dec auxY               ;Decrementamos el valor de (x) y (y-2)
+        dec auxY
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion3
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion3
+        
+        jmp Comparacion4
+
+Comparacion3:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        add auxx,01h
+        dec auxY
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je call dibujarArriba
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je  call dibujarArriba
+        
+        jmp Comparacion4  
+        
+Comparacion4:        
+        
+        ;Abajo  
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+       
+        
+        dec auxX               ;Decrementamos el valor de (x-1) y (y+1)
+        add auxY,01h
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h ;leer un caracter y atributo  
+        int 10h
+        
+        
+        cmp al,17h  ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion5
+        
+        cmp al,1dh  ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion5
+        
+        jmp otraVez
+        
+Comparacion5:
+         
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        add auxY,02h           ;Decrementamos el valor de (x) y (y+2)
+      
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion6
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion6
+        
+        jmp otraVez
+
+Comparacion6:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        add auxx,01h
+        add auxY,01h
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je call dibujarAbajo
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je call dibujarAbajo
+        
+        jmp otraVez
+;______________________________________________________________________________ 
+DIBUJARArriba proc near:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+                      ;Decrementamos el valor de (x) y (y-1)
+        dec auxY
+       
+        
+        gotoxy auxx,auxy                                  
+        
+        imprime player1         ;FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        
+        jmp comparacion4 
+        ;ret
+endp
+;______________________________________________________________________________ 
+DIBUJARABAJO proc near:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov ch, posy           ;guardamos la posicion de y
+        mov auxy, ch
+        
+        ;-----------------
+        
+                      ;Decrementamos el valor de (x) y (y+1)
+        ADD auxY ,01H
+       
+        
+        gotoxy auxx,auxy                                  
+        
+        imprime player1         ;FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        
+        jmp otraVez
+        ;ret
+endp
+;______________________________________________________________________________ 
+VERIFICARIYD:
+        ;Izquierda  
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+       
+        
+        add auxX,01h               ;Decrementamos el valor de (x+1) y (y-1)
+        dec auxY
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h ;leer un caracter y atributo  
+        int 10h
+        
+        
+        cmp al,17h  ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion8
+        
+        cmp al,1dh  ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion8
+        
+        jmp Comparacion10
+        
+Comparacion8:
+         
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        dec auxX               ;Decrementamos el valor de (x-1) y (y+1)
+        add auxY,01h
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion9
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion9
+        
+        jmp Comparacion10
+
+Comparacion9:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        dec auxx               ;(x-2)(y)
+        dec auxx
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je call dibujarIzquierda
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je  call dibujarIzquierda
+        
+        jmp Comparacion10  
+        
+Comparacion10:        
+        
+        ;derecha  
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+       
+        
+        dec auxy               ;Decrementamos el valor de (x+1) y (y-1)
+        add auxx,01h
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion11
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion11
+        
+        jmp otraVez
+        
+Comparacion11:
+         
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        add auxY,01h           ;Decrementamos el valor de (x+1) y (y+1)
+        add auxx,01h
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je Comparacion12
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je Comparacion12
+        
+        jmp otraVez
+
+Comparacion12:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+        add auxx,02h
+        
+        
+        gotoxy auxx,auxy                                  
+        
+        mov ah, 08h            ;leer un caracter y atributo  
+        int 10h
+        
+        cmp al,17h             ;Comparamos con las posiciones de los signos para arriba 
+        je call dibujarderecha
+        
+        cmp al,1dh             ;Comparamos con las posiciones de los signos para abajo 
+        je call dibujarderecha
+        
+        jmp otraVez
+
+;______________________________________________________________________________         
+;______________________________________________________________________________ 
+DIBUJARIZQUIERDA proc near:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov cx,0h
+        mov dx,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov dh, posy           ;guardamos la posicion de y
+        mov auxy, dh
+        
+        ;-----------------
+        
+                      ;Decrementamos el valor de (x) y (y-1)
+        dec auxX
+       
+        
+        gotoxy auxx,auxy                                  
+        
+        imprime player1         ;FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        
+        jmp comparacion10 
+        ;ret
+endp
+;______________________________________________________________________________ 
+DIBUJARDERECHA proc near:
+        
+        mov auxX,0h            ;Limpiamos los valores
+        mov auxY,0h
+        
+        mov ch, posx           ;guardamos la posicion de x
+        mov auxX, ch
+        
+        mov ch, posy           ;guardamos la posicion de y
+        mov auxy, ch
+        
+        ;-----------------
+        
+                      ;Decrementamos el valor de (x) y (y+1)
+        ADD auxX,01H
+       
+        
+        gotoxy auxx,auxy                                  
+        
+        imprime player1         ;FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        
+        jmp otraVez
+        ;ret
+endp  
+      
 ;______________________________________________________________________________    
 OTRAVEZ:
        cmp numeroJugadores, 32h
@@ -1127,6 +1644,7 @@ MATRIZ5X5 proc near: ;Proceso para imprimir matrix de 5 x 5
    mov fila,5h             ;Iniciamos el valor de las columnas en 5
    
    mov cx,5h               ;establecemos 5 iteraciones
+   
    ciclo1:
        
        gotoxy columna, fila;vamos a la posicion mxn
@@ -1151,7 +1669,8 @@ SONIDO proc near:;Crea un sonido si la tecla es diferente a las que dice el menu
        mov dl,07h          ;Crea el sonido
        int 21h             ;INT teclado
 
-endp               ;Cierre de proceso
+       ret
+endp                       ;Cierre de proceso
 ;______________________________________________________________________________
 MENU proc near:;Proceso que imprime el menu y las instrucciones
     
@@ -1233,26 +1752,29 @@ SIGUIENTEJUGADOR proc near: ;Proceso para pasar al siguiente jugador
     cmp jugadorActual,049h ;Comparamos con 1
     jne jugador2           
     mov jugadorActual,050h ;Si es igual movemos al siguiente
+    call menu
     ret
     
     jugador2:       
     cmp jugadorActual,050h ;Comparamos con 2
     jne jugador3           ;Si no es igual se verifica el siguiente
     mov jugadorActual,051h ;Si es igual movemos al siguiente
+    call menu
     ret
     
     jugador3:       
     cmp jugadorActual,051h ;Comparamos con 3
     jne call jugador4      ;Si no es igual se verifica el siguiente
     mov jugadorActual,052h ;Si es igual movemos al siguiente
+    call menu
     ret
     
     jugador4:       
     mov jugadorActual,049h ;Si no es ninguno de los anteriores es el #4 y se actualiza la posicion
+    call menu
     ret
            ;Si es igual se actualiza el color
       
-    ret
 endp  
 ;______________________________________________________________________________                             
 COLOR1 proc near:                                       
@@ -1324,28 +1846,52 @@ endp
     mov dh,signoP         ;se mueve el valor dependiendo de la posicion de la matriz
     mov signo,dh 
    
-    
+    ret
 endp
 ;______________________________________________________________________________
 SIGNOIMPAR proc near:
     
     mov dh,signoI         ;se mueve el valor dependiendo de la posicion de la matriz
     mov signo,dh   
-   
+    ret
 endp
 ;______________________________________________________________________________               
 obtenerSigno proc near:   ;Proceso para analizar la posicion en "Y" y el signo correspondiente
+  
+    mov dh,posY            ;Usamos un auxiliar 
+    mov auxY,dh 
+    cmp posY, 01h
+    je  signoImpar         ;se comparan las filas impares 
     
-    mov dh,posy           ;Guardamos la posicion de Y
-    mov auxy, dh
-                          ;Se divide entre 2
-    div auxy,02h         ;Se compara el residuo con 0
-    cmp ah, 0h            ;si es 0 entonces es par
-    je signoPar
-                          ;si es 1 es impar
-    cmp ah, 0h
-    je signoImpar
-     
+    cmp auxY, 03h
+    je  signoImpar
+    
+    cmp auxY, 05h
+    je  signoImpar 
+    
+    cmp auxY, 07h
+    je  signoImpar
+    
+    cmp auxY, 09h
+    je  signoImpar 
+    
+    cmp auxY, 0Bh
+    je  signoImpar
+    
+    cmp auxY, 0Dh
+    je  signoImpar
+    
+    cmp auxY, 0Fh
+    je  signoImpar 
+    
+    cmp auxY, 11h
+    je  signoImpar
+    
+    cmp auxY, 13h
+    je  signoImpar
+    
+    jmp signoPar          ;si no es una impar definivamente es una fila par XD
+    
     RET
 endp
 ;______________________________________________________________________________               
