@@ -605,8 +605,8 @@ GAME3: ;Inicio de logica del juego
     mov ax, 03h           ;Obtiene las posiciones del mouse
     int 33h               ;INT mouse
                           
-    ;cmp bx,1              ;Cpm click Izquierdo
-    ;je verificarPosicion  ;Si es igual Saltamos de etiqueta    
+    cmp bx,1              ;Cpm click Izquierdo
+    je VerificarRestricciones;Vamos a verificar las restricciones    
     
     ;cmp bx,2
     ;je call sonido       ;Si es igual Saltamos de etiqueta    
@@ -716,8 +716,8 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     mov ax, 03h           ;Obtiene las posiciones del mouse
     int 33h               ;INT mouse
                           
-    ;cmp bx,1              ;Cpm click Izquierdo
-    ;je verificarPosicion  ;Si es igual Saltamos de etiqueta    
+    cmp bx,1              ;Cpm click Izquierdo
+    je VerificarRestricciones;Vamos a verificar las restricciones
     
     ;cmp bx,2
     ;je call sonido       ;Si es igual Saltamos de etiqueta    
@@ -1539,8 +1539,56 @@ RESTRICCIONES2:;restricciones para el nivel 2
     call obtenerposicion  ;Guardamos la posicion del mouse x,y
 
 ;______________________________________________________________________________
+LADOIZQ2:
+        cmp posx, 1eh     ;comparamos el valor de x con los limites iniciales de las columnas
+        jae LadoDer2       ;Si estan dentro de los limites entra
+        call sonido
+        jmp OtraVez
+        
+;______________________________________________________________________________
+LadoDer2:
+        cmp posx, 30h     ;comparamos el valor de x con los limites finales de las columnas
+        jbe LadoArr2       ;Si estan dentro de los limites entra
+        call sonido 
+        jmp OtraVez
+    
+;______________________________________________________________________________    
+LadoArr2:                  ;comparamos el valor de y con los limites iniciales de las filas
+        cmp posy, 01h     ;Si estan dentro de los limites entra
+        jae LadoAba2
+        call sonido 
+        jmp OtraVez
+    
+;______________________________________________________________________________    
+LadoAba2:                  ;comparamos el valor de y con los limites finales de las filas
+        cmp posy, 13h     ;Si estan dentro de los limites entra
+        jbe VerificarColor 
+        call sonido
+        jmp OtraVez
+
+
+
+
+;______________________________________________________________________________
 RESTRICCIONES3:;restricciones para el nivel 3
     call obtenerposicion  ;Guardamos la posicion del mouse x,y
+
+;______________________________________________________________________________    
+LadoArr3:                  ;comparamos el valor de y con los limites iniciales de las filas
+        cmp posy, 01h     ;Si estan dentro de los limites entra
+        jae LadoAba3
+        call sonido 
+        jmp OtraVez
+
+;______________________________________________________________________________    
+LadoAba3:                  ;comparamos el valor de y con los limites finales de las filas
+        cmp posy, 13h     ;Si estan dentro de los limites entra
+        jbe VerificarColor 
+        call sonido
+        jmp OtraVez
+
+
+
 
 ;______________________________________________________________________________
 
@@ -1586,7 +1634,7 @@ endp
 MATRIZ10X40 proc near: ;Proceso para imprimir matrix de 10 x 40
    
    mov columna,0h          ; Iniciamos el valor de las filas en 0
-   mov fila,0h             ; Iniciamos el valor de las columnas en 0
+   mov fila,1h             ; Iniciamos el valor de las columnas en 0
    
    mov cx,0ah              ;establecemos 10 iteraciones
    ciclo3:                 ;Etiqueta para ciclo
@@ -1607,7 +1655,7 @@ endp
 MATRIZ10X10 proc near: ;Proceso para imprimir matrix de 10 x 10
    
    mov columna,1eh         ;Iniciamos el valor de las filas en 30
-   mov fila,0h             ;Iniciamos el valor de las columnas en 0
+   mov fila,1h             ;Iniciamos el valor de las columnas en 0
    
    mov cx,0ah              ;establecemos 10 iteraciones
    ciclo2:                 ;Etiqueta para ciclo
