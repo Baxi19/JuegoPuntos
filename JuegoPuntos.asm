@@ -1237,9 +1237,18 @@ DIBUJARArriba proc near: ;P
         
                               ;(x) , (y-1)
         dec auxY      
+        
+        call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
         gotoxy auxx,auxy      ;Vamos a la posicion                            
         
-        imprime player1       ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+        mov al, car         ;Se carga el caracter
+        mov bl, col           ;Color del jugador
+        mov cx, 01h           ;Cantidad de veces que se va a imprimir
+        int 10h  
+        
+        
+        ;imprime player1       ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
         mov turnoGanado,01h
         
@@ -1260,9 +1269,16 @@ DIBUJARABAJO proc near:
         
                               ; (x) , (y+1)
         ADD auxY ,01H
+                                
+        call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
         gotoxy auxx,auxy      ;Vamos a la posicion                            
         
-        imprime player1       ;$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+        mov al, car         ;Se carga el caracter
+        mov bl, col           ;Color del jugador
+        mov cx, 01h           ;Cantidad de veces que se va a imprimir
+        int 10h
+        ;imprime player1       ;$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
         cmp turnoGanado,01h
         je otraVez           ;sI 
@@ -1475,9 +1491,16 @@ DIBUJARIZQUIERDA proc near:
         dec auxX
        
         
-        gotoxy auxx,auxy       ;vamos a la posicion                           
+        call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
+        gotoxy auxx,auxy      ;Vamos a la posicion                            
         
-        imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+        mov al, car         ;Se carga el caracter
+        mov bl, col           ;Color del jugador
+        mov cx, 01h           ;Cantidad de veces que se va a imprimir
+        int 10h
+        
+        ;imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         mov turnoGanado,01h
         
         jmp comparacion10 
@@ -1498,10 +1521,16 @@ DIBUJARDERECHA proc near:
                                ;(x) , (y+1)
         ADD auxX,01H
        
-                               ;vamos a la posicion
-        gotoxy auxx,auxy                                  
+       call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
+        gotoxy auxx,auxy      ;Vamos a la posicion                            
         
-        imprime player1        ;$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+        mov al, car         ;Se carga el caracter
+        mov bl, col           ;Color del jugador
+        mov cx, 01h           ;Cantidad de veces que se va a imprimir
+        int 10h                              
+        
+        ;imprime player1        ;$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
         cmp turnoGanado,01h
         je otraVez             ;Verifica si gano un turno mas
@@ -1783,13 +1812,13 @@ endp
 ;______________________________________________________________________________                             
 SIGUIENTEJUGADOR proc near: ;Proceso para pasar al siguiente jugador
     
-    cmp numeroJugadores, 50h     ;Comparamos la cantidad de jugadores para analizar el 
+    cmp numeroJugadores, 32h     ;Comparamos la cantidad de jugadores para analizar el 
     je rol2
            
-    cmp numeroJugadores, 51h
+    cmp numeroJugadores, 33h
     je rol3
     
-    cmp numeroJugadores, 52h
+    cmp numeroJugadores, 34h
     je rol4       
      ;________________________________________
 ROL2:
@@ -1858,6 +1887,8 @@ ROL4:
 endp  
 ;______________________________________________________________________________                             
 COLOR1 proc near:                                       
+    mov ch,player1
+    mov car,ch
                                        
     mov col,1010b       ; color verde
     ret
@@ -1866,6 +1897,8 @@ COLOR1 proc near:
 endp                                       
 ;______________________________________________________________________________                             
 COLOR2 proc near:
+    mov ch,player2
+    mov car,ch
     
     mov col,1110b       ;color amarillo
     ret
@@ -1873,6 +1906,8 @@ COLOR2 proc near:
 endp
 ;______________________________________________________________________________                             
 COLOR3 proc near:
+    mov ch,player3
+    mov car,ch
     
     mov col,0100b       ;color rojo 
     ret 
@@ -1880,6 +1915,8 @@ COLOR3 proc near:
 endp
 ;______________________________________________________________________________                             
 COLOR4 proc near:
+    mov ch,player4
+    mov car,ch
     
     mov col,1001b       ;color azul  
     ret
