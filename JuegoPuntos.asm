@@ -139,13 +139,23 @@ DATOS SEGMENT
         
         ;PUNTOS
         ;Jugador 1 
-        puntos1 dw 48,"$"
+        puntos1 db 48,"$"
         ;Jugador 2
-        puntos2 dw 48,"$"
+        puntos2 db 48,"$"
         ;Jugador 3
-        puntos3 dw 48,"$"
+        puntos3 db 48,"$"
         ;Jugador 4
-        puntos4 dw 48,"$"
+        puntos4 db 48,"$"
+        
+        ;PuntosAuxiliares
+        puntosA1 db 3 dup(?),"$"
+        ;Jugador 2
+        puntosB1  db 3 dup(?),"$"
+        ;Jugador 3
+        puntosC1  db 3 dup(?),"$"
+        ;Jugador 4
+        puntosD1  db 3 dup(?),"$"                  
+        
                               
         ;Puntos maximos de la matriz                              
         puntosMaxNivel1 dw 10h     ;16 
@@ -288,7 +298,7 @@ VERIFICARJUGADORES: ;se compara las entradas del usuario
 DOSJUGADORES: ;Seleccion de caracteres del rol de 2 jugadores
     
     ;Jugador #1
-    GOTOXY 0h,0h          ;Toma la posicion  
+    GOTOXY 0h,5h          ;Toma la posicion  
     colores 1010B         ;Color verde 
     imprime pregunta1     ;Imprime la pregunta que solicita el caracter
     
@@ -301,7 +311,7 @@ DOSJUGADORES: ;Seleccion de caracteres del rol de 2 jugadores
     imprime espacio       ;Espacio Vacio
 
     ;Jugador #2
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 1110B         ;Color amarillo 
     imprime pregunta2     ;Imprime la pregunta que solicita el caracter
     
@@ -318,7 +328,7 @@ DOSJUGADORES: ;Seleccion de caracteres del rol de 2 jugadores
 TRESJUGADORES:  ;Seleccion de caracteres del rol de 3 jugadores
     
     ;Jugador #1
-    GOTOXY 0h,0h          ;Toma la posicion  
+    GOTOXY 0h,5h          ;Toma la posicion  
     colores 1010B         ;Color verde 
     imprime pregunta1      ;Imprime la pregunta
     
@@ -331,7 +341,7 @@ TRESJUGADORES:  ;Seleccion de caracteres del rol de 3 jugadores
     imprime espacio       ;Espacio Vacio
 
     ;Jugador #2
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 1110B         ;Color amarillo 
     imprime pregunta2      ;Imprime la pregunta
     
@@ -344,7 +354,7 @@ TRESJUGADORES:  ;Seleccion de caracteres del rol de 3 jugadores
     imprime espacio       ;Espacio Vacio
                                           
     ;Jugador #3
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 0100B         ;Color rojo
     imprime pregunta3      ;Imprime la pregunta
     
@@ -362,7 +372,7 @@ TRESJUGADORES:  ;Seleccion de caracteres del rol de 3 jugadores
 CUATROJUGADORES: ;Seleccion de caracteres del rol de 4 jugadores
     
     ;Jugador #1
-    GOTOXY 0h,0h          ;Toma la posicion  
+    GOTOXY 0h,5h          ;Toma la posicion  
     colores 1010B         ;Color verde 
     imprime pregunta1      ;Imprime la pregunta
     
@@ -375,7 +385,7 @@ CUATROJUGADORES: ;Seleccion de caracteres del rol de 4 jugadores
     imprime espacio       ;Espacio Vacio
 
     ;Jugador #2
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 1110B         ;Color amarillo 
     imprime pregunta2      ;Imprime la pregunta
     
@@ -388,7 +398,7 @@ CUATROJUGADORES: ;Seleccion de caracteres del rol de 4 jugadores
     imprime espacio       ;Espacio Vacio
                                           
     ;Jugador #3
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 0100B         ;Color rojo 
     imprime pregunta3      ;Imprime la pregunta
     
@@ -401,7 +411,7 @@ CUATROJUGADORES: ;Seleccion de caracteres del rol de 4 jugadores
     imprime espacio       ;Espacio Vacio
     
     ;Jugador #4
-    GOTOXY 0h,0h          ;Toma la posicion    
+    GOTOXY 0h,5h          ;Toma la posicion    
     colores 1001B         ;Color azul 
     imprime pregunta4      ;Imprime la pregunta
     
@@ -425,7 +435,7 @@ CICLOJUEGO2: ;Ciclo Para iniciar el juego de 2 jugadores
     
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
-    Int 21h               ;Interfaz
+    Int 21h               
     
     mov bl,al             ;Se mueve el valor recibido del teclado
     mov si,0              ;a una variable para ser comparado con las posibles entradas
@@ -491,8 +501,8 @@ GAME2: ;Inicio de la logica del juego
     cmp bx,1              ;Cpm click Izquierdo
     je VerificarRestricciones;Vamos a verificar las restricciones
     
-    ;cmp bx,2             ;Cpm click Derecho
-    ;je call sonido       ;Si es igual Saltamos de etiqueta    
+    cmp bx,2             ;Cpm click Derecho
+    je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -608,8 +618,8 @@ GAME3: ;Inicio de logica del juego
     cmp bx,1              ;Cpm click Izquierdo
     je VerificarRestricciones;Vamos a verificar las restricciones    
     
-    ;cmp bx,2
-    ;je call sonido       ;Si es igual Saltamos de etiqueta    
+    cmp bx,2
+    je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -719,8 +729,8 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     cmp bx,1              ;Cpm click Izquierdo
     je VerificarRestricciones;Vamos a verificar las restricciones
     
-    ;cmp bx,2
-    ;je call sonido       ;Si es igual Saltamos de etiqueta    
+    cmp bx,2
+    je call sonido       ;Si es igual Saltamos de etiqueta    
     
     
     
@@ -810,8 +820,7 @@ INFORENDIDO2: ;Informacin cuando un jugador se rinde
     
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
-    Int 21h               ;Interfaz      
-     
+    Int 21h               
     
     jmp resetapp          ;Reiniciamos el juego
 ;______________________________________________________________________________
@@ -843,7 +852,12 @@ RESETAPP:                 ;Reinicia el juego
     mov puntos1, 48
     mov puntos2, 48
     mov puntos3, 48
-    mov puntos4, 48
+    mov puntos4, 48 
+    
+    mov puntosA1, 48
+    mov puntosB1, 48
+    mov puntosC1, 48
+    mov puntosD1, 48
     mov turnoGanado,00h
      
     mov jugadorActual, 49h; establecemos el primer jugador
@@ -865,7 +879,7 @@ INFO1:;informacion del usuario 1 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntos1       ;puntos obtenidos                        
+    imprime puntosA1       ;puntos obtenidos                        
                             
     ret                        
 
@@ -882,7 +896,7 @@ INFO2:;informacion del usuario 2 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntos2       ;puntos obtenidos                        
+    imprime puntosB1       ;puntos obtenidos                        
                             
     ret                        
 
@@ -899,7 +913,7 @@ INFO3:;informacion del usuario 3 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntos3       ;puntos obtenidos                        
+    imprime puntosC1       ;puntos obtenidos                        
                             
     ret                        
 
@@ -916,7 +930,7 @@ INFO4:;informacion del usuario 4 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntos4       ;puntos obtenidos                        
+    imprime puntosD1       ;puntos obtenidos                        
                             
 
     ret                        
@@ -1010,7 +1024,6 @@ PINTARCOLOR:
         mov bl, col           ;Color del jugador
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h               ;Teclado
-        
         
         mov al,00             ;Limpiamos los registros
         mov ah,06             ;Entrada sin eco
@@ -1247,9 +1260,11 @@ DIBUJARArriba proc near: ;P
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h  
         
-        call sumarPuntos
-        ;imprime player1       ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
+        call sumarPuntos   
+        
+        call actualizarDatos
+        call verificarGanador
         mov turnoGanado,01h
         
         jmp comparacion4      ;comparamos abajo
@@ -1280,8 +1295,8 @@ DIBUJARABAJO proc near:
         int 10h
         ;imprime player1       ;$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         
-        call sumarPuntos
-        
+        call sumarPuntos   
+        call actualizarDatos
         cmp turnoGanado,01h
         je otraVez           ;sI 
         
@@ -1504,6 +1519,7 @@ DIBUJARIZQUIERDA proc near:
         
         call sumarPuntos
         ;imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        call actualizarDatos
         mov turnoGanado,01h
         
         jmp comparacion10 
@@ -1535,6 +1551,7 @@ DIBUJARDERECHA proc near:
         
         call sumarPuntos
         ;imprime player1        ;$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+        call actualizarDatos
         
         cmp turnoGanado,01h
         je otraVez             ;Verifica si gano un turno mas
@@ -1605,7 +1622,12 @@ LadoAba2:                  ;comparamos el valor de y con los limites finales de 
 ;______________________________________________________________________________
 RESTRICCIONES3:;restricciones para el nivel 3
     call obtenerposicion  ;Guardamos la posicion del mouse x,y
-
+;______________________________________________________________________________
+LadoDer3:
+        cmp posx, 4Eh     ;comparamos el valor de x con los limites finales de las columnas
+        jbe LadoArr3       ;Si estan dentro de los limites entra
+        call sonido 
+        jmp OtraVez
 ;______________________________________________________________________________    
 LadoArr3:                  ;comparamos el valor de y con los limites iniciales de las filas
         cmp posy, 01h     ;Si estan dentro de los limites entra
@@ -1624,26 +1646,124 @@ LadoAba3:                  ;comparamos el valor de y con los limites finales de 
 
 ;______________________________________________________________________________                             
 SUMAR1 proc near:
+        
+        cmp puntos1,09h
+        je  aumentarDecimas
+        
         add puntos1,01h
+        
+        mov si,2h
+        mov ch,puntos1
+        mov puntosA1[si],ch
         ret
+         
+aumentarDecimas:
+
+        mov si,01h
+        cmp puntosA1[si],09h
+        je  aumentarCentecimas
+        add puntosA1[si],01h
+        ret   
+        
+aumentarCentecimas:
+
+        mov si,00h
+        add puntosA1[si],01h
+        ret   
+
+        
 endp
 
 ;______________________________________________________________________________                             
 SUMAR2 proc near:
+        
+        cmp puntos2,09h
+        je  aumentarDecimas2
+        
         add puntos2,01h
+        
+        mov si,2h
+        mov ch, puntos2
+        mov puntosB1[si],ch
         ret
+         
+aumentarDecimas2:
+
+        mov si,01h
+        cmp puntosB1[si],09h
+        je  aumentarCentecimas2
+        add puntosB1[si],01h
+        ret   
+        
+aumentarCentecimas2:
+
+        mov si,00h
+        add puntosB1[si],01h
+        ret   
+
+        
 endp
+;______________________________________________________________________________                             
+
 
 ;______________________________________________________________________________                             
 SUMAR3 proc near:
-       add puntos3,01h
-       ret
+        
+        cmp puntos3,09h
+        je  aumentarDecimas3
+        
+        add puntos3,01h
+        
+        mov si,2h
+        mov ch, puntos3
+        mov puntosC1[si],ch
+        ret
+         
+aumentarDecimas3:
+
+        mov si,01h
+        cmp puntosC1[si],09h
+        je  aumentarCentecimas3
+        add puntosC1[si],01h
+        ret   
+        
+aumentarCentecimas3:
+
+        mov si,00h
+        add puntosC1[si],01h
+        ret   
+
+        
 endp
 
 ;______________________________________________________________________________                             
 SUMAR4 proc near:
-       add puntos4,01h
-       ret
+        
+        cmp puntos4,09h
+        je  aumentarDecimas4
+        
+        add puntos4,01h
+        
+        mov si,2h
+        mov ch,puntos4
+        mov puntosD1[si],ch
+        ret
+         
+aumentarDecimas4:
+
+        mov si,01h
+        cmp puntosD1[si],09h
+        je  aumentarCentecimas4
+        add puntosD1[si],01h
+        ret   
+        
+aumentarCentecimas4:
+
+        mov si,00h
+        add puntosD1[si],01h
+        ret   
+
+        
 endp
 ;______________________________________________________________________________                             
 SUMARPUNTOS proc near: ;Proceso para sumar puntos
@@ -1801,7 +1921,7 @@ MENU proc near:;Proceso que imprime el menu y las instrucciones
     gotoxy 00h,16h
     imprime opciones1     ;Imprime linea
     
-     
+    actualizarDatos proc near: 
     ;Se compara el jugador que esta en el turno
     cmp jugadorActual, 49h;Con el 1
     je info1              ;Se imprime la info
@@ -1814,8 +1934,8 @@ MENU proc near:;Proceso que imprime el menu y las instrucciones
 
     cmp jugadorActual, 52h;Con el 4 
     je info4              ;Se imprime la info
-    
-    ret              
+    ret
+    endp              
 endp 
 
 ;______________________________________________________________________________
@@ -2056,7 +2176,11 @@ obtenerSigno proc near:   ;Proceso para analizar la posicion en "Y" y el signo c
     jmp signoPar          ;si no es una impar definivamente es una fila par XD
     
     RET
-endp
+endp 
+;______________________________________________________________________________               
+ verificarGanador proc near:
+     RET
+ endp
 ;______________________________________________________________________________               
 
 SALIR:;Para finalizar el programa
