@@ -111,10 +111,10 @@ DATOS SEGMENT
         dw ' ',0ah,0dh
         dw ' ',0ah,0dh
         dw '           ====================================================',0ah,0dh
-        dw '          ||               GANADOR!!!                         ||',0ah,0dh 
-        dw '          ||                                                  ||',0ah,0dh
         dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||          Juego Finalizado!                       ||',0ah,0dh
         dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||          El Mejor puntuaje lo obtuvo:            ||',0ah,0dh 
         dw '          ||                                                  ||',0ah,0dh 
         dw '          ||                                                  ||',0ah,0dh 
         dw '          ||                                                  ||',0ah,0dh  
@@ -148,6 +148,8 @@ DATOS SEGMENT
         pregunta3 db 13,10,'             Digite un caracter para el jugador 3: ','$'
         pregunta4 db 13,10,'             Digite un caracter para el jugador 4: ','$'
         preguntaNivel db 13,10,'         Selecione ("1" o "2" o "3") para el nivel de dificultad ','$'
+        numeroMayor db 0h,"$"
+        caracterAux db 0h,"$"  
         
         ;CARACTER
         ;Jugador 1 
@@ -169,7 +171,14 @@ DATOS SEGMENT
         ;Jugador 4
         puntos4 db 30h ,"$"
         
-                     
+        ;Jugador 1 
+        puntosAux1 db 0h ,"$"
+        ;Jugador 2
+        puntosAux2 db 0h  ,"$"
+        ;Jugador 3
+        puntosAux3 db 0h ,"$"
+        ;Jugador 4
+        puntosAux4 db 0h ,"$"             
         
         ;Variables para mostrar el puntuaje
         puntosAux db 000
@@ -865,7 +874,66 @@ GANADOR: ;Informacin cuando un jugador se rinde
     imprime espacio
     colores 0101B         ;Color morado 
     
+    call verificarGanador
     imprime victoria3     ;Imprime Pantalla para cantidad de jugadores 
+    
+    gotoxy 19h,0fh
+    imprime jugador       ;jugador 
+    
+    gotoxy 23h,0fh
+    imprime caracterAux
+        
+    mov al, numeroMayor
+    cmp al, puntosAux1
+    je num1
+    
+    cmp al,puntosAux2 
+    je num2
+    
+    cmp al, puntosAux3
+    je num3
+    
+    cmp al,puntosAux4
+    je num4
+    
+num1:
+    gotoxy 19h,11h
+    imprime color
+    
+    gotoxy 23h,11h
+    imprime cen1    
+                     
+    gotoxy 24h,11h
+    imprime dece1 
+        
+    gotoxy 25h,11h
+    imprime uni1      ;puntos obtenidos                        
+    
+    gotoxy 26h,11h
+    imprime limpiarUltima    
+           
+           
+    mov servicio,06h      ;Salidas o entradas Teclado
+    mov ah,1              ;Esperamos que se digite una tecla
+    Int 21h               
+    
+    jmp resetapp          ;Reiniciamos el juego 
+    
+num2:
+    gotoxy 19h,11h
+    imprime color
+    
+    gotoxy 23h,11h
+    imprime cen2    
+                     
+    gotoxy 24h,11h
+    imprime dece2 
+        
+    gotoxy 25h,11h
+    imprime uni2      ;puntos obtenidos                        
+    
+    gotoxy 26h,11h
+    imprime limpiarUltima     
     
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
@@ -873,6 +941,50 @@ GANADOR: ;Informacin cuando un jugador se rinde
     
     jmp resetapp          ;Reiniciamos el juego
 
+num3:
+    gotoxy 19h,11h
+    imprime color
+    
+    gotoxy 23h,11h
+    imprime cen3    
+                     
+    gotoxy 24h,11h
+    imprime dece3 
+        
+    gotoxy 25h,11h
+    imprime uni3      ;puntos obtenidos                        
+    
+    gotoxy 26h,11h
+    imprime limpiarUltima    
+    
+    mov servicio,06h      ;Salidas o entradas Teclado
+    mov ah,1              ;Esperamos que se digite una tecla
+    Int 21h               
+    
+    jmp resetapp          ;Reiniciamos el juego
+
+num4: 
+    gotoxy 19h,11h
+    imprime color
+    
+    gotoxy 23h,11h
+    imprime cen4    
+                     
+    gotoxy 24h,11h
+    imprime dece4 
+        
+    gotoxy 25h,11h
+    imprime uni4      ;puntos obtenidos                        
+    
+    gotoxy 26h,11h
+    imprime limpiarUltima    
+    
+    mov servicio,06h      ;Salidas o entradas Teclado
+    mov ah,1              ;Esperamos que se digite una tecla
+    Int 21h               
+    
+    jmp resetapp          ;Reiniciamos el juego
+    
 ;______________________________________________________________________________
 INFORENDIDO2: ;Informacin cuando un jugador se rinde
     
@@ -931,13 +1043,17 @@ RESETAPP:                 ;Reinicia el juego
     mov puntos2, 30h
     mov puntos3, 30h
     mov puntos4, 30h 
-    
+    mov puntosAux1 ,0h
+    mov puntosAux2 ,0h
+    mov puntosAux3 ,0h
+    mov puntosAux4 ,0h
     mov turnoGanado,00h
      
     mov jugadorActual, 49h; establecemos el primer jugador
     mov nivel,00h         ;Le colocamos un cero a la variable del nivel                      
     
-                    
+    mov numeroMayor , 0h
+    mov caracterAux , 0h
         
     ;Variables para mostrar el puntuaje
     mov puntosAux, 000
@@ -963,6 +1079,8 @@ RESETAPP:                 ;Reinicia el juego
     mov puntosMaxNivel2 , 51h     ;81
     mov puntosMaxNivel3 , 015Fh   ;351      
     mov turnoGanado , 00h
+    
+    
     
     ;aux para rol del juego
     mov jugadorActual , 49h
@@ -1404,7 +1522,7 @@ DIBUJARArriba proc near: ;P
         
         call actualizarDatos
         call verificarGanador
-        ;call restarPuntos
+        
         mov turnoGanado,01h
         
         jmp comparacion4      ;comparamos abajo
@@ -1433,15 +1551,15 @@ DIBUJARABAJO proc near:
         mov bl, col           ;Color del jugador
         mov cx, 01h           ;Cantidad de veces que se va a imprimir
         int 10h
-        ;imprime player1       ;$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+             
         
         call sumarPuntos   
         call actualizarDatos
-        ;call restarPuntos
+       
         cmp turnoGanado,01h
-        je otraVez           ;sI 
+        je otraVez          
         
-        ;call siguienteJugador
+       
 endp
 ;______________________________________________________________________________ 
 VERIFICARIYD:
@@ -1659,9 +1777,9 @@ DIBUJARIZQUIERDA proc near:
         int 10h
         
         call sumarPuntos
-        ;imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
+             
         call actualizarDatos
-        ;call restarPuntos
+      
         mov turnoGanado,01h
         
         jmp comparacion10 
@@ -1694,11 +1812,11 @@ DIBUJARDERECHA proc near:
         call sumarPuntos
         
         call actualizarDatos
-        ;call restarPuntos
+       
         cmp turnoGanado,01h
         je otraVez             ;Verifica si gano un turno mas
         
-        ;call siguienteJugador
+       
         
 endp  
       
@@ -1785,10 +1903,17 @@ LadoAba3:                  ;comparamos el valor de y con los limites finales de 
         jmp OtraVez
 
 
+;______________________________________________________________________________  
+;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                            
+;______________________________________________________________________________                           
+; Area de Procesos Repetitivos para llamar como funciones
+;______________________________________________________________________________  
+;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+;______________________________________________________________________________
 
 ;______________________________________________________________________________                             
 SUMAR1 proc near:
-        
+        add puntosAux1,01h
         cmp puntos1,39h
         je aumentarDec1
         add puntos1,01h
@@ -1819,13 +1944,14 @@ SUMAR1 proc near:
         
         gotoxy 2ah,17h
         imprime uni1
+        call restarpuntos
         ret              
         
 endp
 
 ;______________________________________________________________________________                             
 SUMAR2 proc near:
-        
+        add puntosAux2,01h
         cmp puntos2,39h
         je aumentarDec2
         add puntos2,01h
@@ -1856,6 +1982,7 @@ SUMAR2 proc near:
         
         gotoxy 2ah,17h
         imprime uni2 
+        call restarpuntos
         ret
        
 endp
@@ -1863,7 +1990,8 @@ endp
 
 
 ;______________________________________________________________________________                             
-SUMAR3 proc near:
+SUMAR3 proc near:     
+        add puntosAux3,01h
         cmp puntos3,39h
         je aumentarDec3
         add puntos3,01h
@@ -1894,18 +2022,14 @@ SUMAR3 proc near:
         
         gotoxy 2ah,17h
         imprime uni3 
+        call restarpuntos
         ret
-        ;add puntos3,01h
-        
-        ;score puntos3 ,Cen3, Dece3 ,Uni3
-        ;ret
-   
-
-        
+      
 endp
 
 ;______________________________________________________________________________                             
 SUMAR4 proc near:
+        add puntosAux4,01h
         cmp puntos4,39h
         je aumentarDec4
         add puntos4,01h
@@ -1936,14 +2060,9 @@ SUMAR4 proc near:
         
         gotoxy 2ah,17h
         imprime uni4 
+        call restarpuntos
         ret
-        ;add puntos4,01h
-        
-        ;score puntos4 ,Cen4, Dece4 ,Uni4
-        ;ret
-  
-
-        
+       
 endp
 ;______________________________________________________________________________                             
 SUMARPUNTOS proc near: ;Proceso para sumar puntos
@@ -1967,13 +2086,6 @@ endp
 
 ;______________________________________________________________________________
 
-;______________________________________________________________________________  
-;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                            
-;______________________________________________________________________________                           
-; Area de Procesos Repetitivos para llamar como funciones
-;______________________________________________________________________________  
-;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-;______________________________________________________________________________
 
 ;______________________________________________________________________________                           
 VERIFICARNIVEL2 PROC near: ;Proceso para verificar el nivel de una partida de 2
@@ -2314,26 +2426,27 @@ RESTARPUNTOS proc near:
     
     cmp nivel,33h
     je  restar3
-    push ax
+    
+    
     restar1:
     mov ax, puntosMaxNivel1
     sub ax, 1
     mov puntosMaxNivel1,ax 
-    pop ax
+   
     ret
            
     restar2:
     mov ax, puntosMaxNivel2
     sub ax, 1
     mov puntosMaxNivel2,ax 
-    pop ax
+   
     ret
     
     restar3:
     mov ax, puntosMaxNivel3
     sub ax, 1
     mov puntosMaxNivel3,ax 
-    pop ax
+   
     ret
 endp    
 ;______________________________________________________________________________
@@ -2391,8 +2504,53 @@ obtenerSigno proc near:   ;Proceso para analizar la posicion en "Y" y el signo c
     RET
 endp 
 ;______________________________________________________________________________               
- verificarGanador proc near:
-     RET
+ verificarGanador proc near: 
+    
+    call leer_numero1
+	call leer_numero2
+	call leer_numero3
+	call leer_numero4
+	;==================
+     leer_numero1:
+        mov cl,player1
+        mov caracterAux,cl
+        mov al,puntosAux1
+		mov numeroMayor,al 
+		ret
+                       
+    ;==================
+     leer_numero2:
+        mov cl,player2
+        mov al,puntosAux2
+		cmp al, numeroMayor
+        ja Comparacion
+        ret
+    
+    ;==================
+     leer_numero3:
+        mov cl,player3
+        mov al,puntosAux3
+		cmp al, numeroMayor
+        ja Comparacion  
+        ret
+    
+    ;==================                       
+     leer_numero4:
+        mov cl,player4
+        mov al,puntosAux4
+		cmp al, numeroMayor
+        ja Comparacion  
+        ret
+    
+    ;==================
+    Comparacion:    
+        mov caracterAux , cl
+        mov numeroMayor , al
+        ret
+    
+    ;==================
+    
+     
  endp
 ;______________________________________________________________________________               
 
