@@ -107,6 +107,28 @@ DATOS SEGMENT
         dw '           ====================================================',0ah,0dh
         dw '$',0ah,0dh                 
          
+        Victoria3 dw '  ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw ' ',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '          ||               GANADOR!!!                         ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh  
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh 
+        dw '          ||                                                  ||',0ah,0dh                                        
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '          ||                                                  ||',0ah,0dh
+        dw '           ====================================================',0ah,0dh
+        dw '$',0ah,0dh 
         ;Variable para instrucciones del menu  
         opciones1 db "================================================================================","$"
         opciones2 db "                    ++++++++++INSTRUCCIONES DE JUEGO++++++++++                  ","$"
@@ -139,23 +161,34 @@ DATOS SEGMENT
         
         ;PUNTOS
         ;Jugador 1 
-        puntos1 db 48,"$"
+        puntos1 db 30h ,"$"
         ;Jugador 2
-        puntos2 db 48,"$"
+        puntos2 db 30h  ,"$"
         ;Jugador 3
-        puntos3 db 48,"$"
+        puntos3 db 30h ,"$"
         ;Jugador 4
-        puntos4 db 48,"$"
+        puntos4 db 30h ,"$"
         
-        ;PuntosAuxiliares
-        puntosA1 db 3 dup(?),"$"
-        ;Jugador 2
-        puntosB1  db 3 dup(?),"$"
-        ;Jugador 3
-        puntosC1  db 3 dup(?),"$"
-        ;Jugador 4
-        puntosD1  db 3 dup(?),"$"                  
+                     
         
+        ;Variables para mostrar el puntuaje
+        puntosAux db 000
+        
+        Cen1 db 30h ,"$"
+        Dece1 db 30h ,"$"
+        Uni1 db 30h ,"$"
+        
+        Cen2 db 30h ,"$"
+        Dece2 db 30h ,"$"
+        Uni2 db 30h ,"$"
+        
+        Cen3 db 30h ,"$"
+        Dece3 db 30h ,"$"
+        Uni3 db 30h ,"$"
+        
+        Cen4 db 30h ,"$"
+        Dece4 db 30h ,"$"
+        Uni4 db 30h ,"$"
                               
         ;Puntos maximos de la matriz                              
         puntosMaxNivel1 dw 10h     ;16 
@@ -179,6 +212,8 @@ DATOS SEGMENT
         Matriz200 db ' ? ? ? ? ? ? ? ? ? ',"$"
         Matriz300 db ' ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ',"$"                  
         limpiarUltimaLinea db '                                                                               ',"$"                  
+        limpiarUltima db '                    ',"$"                  
+        
         ;Variable aux para servicios
         servicio db ,"$"  
         
@@ -190,8 +225,8 @@ DATOS SEGMENT
         divisor db 8 ,"$"
         
         ;Variables Para imprimir en pantalla menu    
-        Saludo db "*BIENVENIDO*" ,"$" 
-        D1 db "*RENDIRSE:: (R)" ,"$" 
+        Saludo db "*BIENVENIDO*    " ,"$" 
+        D1 db "*RENDIRSE: (R)" ,"$" 
         S1 db "*(S)" ,"$"
         jugador db "JUGADOR : ","$"
         RESET db "*RESET: (C)" ,"$"
@@ -532,7 +567,16 @@ GAME2: ;Inicio de la logica del juego
 
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
-
+    
+    cmp puntosMaxNivel1,0
+    je ganador
+    
+    cmp puntosMaxNivel2,0
+    je ganador
+    
+    cmp puntosMaxNivel3,0
+    je ganador
+    
     cmp al,00             ;Compara si no se ingresaron teclas
     jne call sonido       ;Llamamos el proceso que crea un sonido        
                   
@@ -643,7 +687,16 @@ GAME3: ;Inicio de logica del juego
 
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
-
+    
+    cmp puntosMaxNivel1,0
+    je ganador
+    
+    cmp puntosMaxNivel2,0
+    je ganador
+    
+    cmp puntosMaxNivel3,0
+    je ganador
+    
     cmp al,00             ;Compara si no se ingresaron teclas
     jne call sonido       ;Llamamos el proceso que crea un sonido        
                   
@@ -761,6 +814,15 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
 
+    cmp puntosMaxNivel1,0
+    je ganador
+    
+    cmp puntosMaxNivel2,0
+    je ganador
+    
+    cmp puntosMaxNivel3,0
+    je ganador
+    
     cmp al,00             ;Compara si no se ingresaron teclas
     jne call sonido       ;Llamamos el proceso que crea un sonido        
                   
@@ -792,6 +854,22 @@ INFORENDIDO1: ;Informacin cuando un jugador se rinde
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
     Int 21h               ;Interfaz
+    
+    jmp resetapp          ;Reiniciamos el juego
+
+;______________________________________________________________________________
+GANADOR: ;Informacin cuando un jugador se rinde
+    
+    
+    limpiar servicio      ;Limpia la pantalla 
+    imprime espacio
+    colores 0101B         ;Color morado 
+    
+    imprime victoria3     ;Imprime Pantalla para cantidad de jugadores 
+    
+    mov servicio,06h      ;Salidas o entradas Teclado
+    mov ah,1              ;Esperamos que se digite una tecla
+    Int 21h               
     
     jmp resetapp          ;Reiniciamos el juego
 
@@ -849,20 +927,50 @@ RESETAPP:                 ;Reinicia el juego
     mov dx,0000  
     
                           ;Limpiamos los puntos de los jugadores
-    mov puntos1, 48
-    mov puntos2, 48
-    mov puntos3, 48
-    mov puntos4, 48 
+    mov puntos1, 30h
+    mov puntos2, 30h
+    mov puntos3, 30h
+    mov puntos4, 30h 
     
-    mov puntosA1, 48
-    mov puntosB1, 48
-    mov puntosC1, 48
-    mov puntosD1, 48
     mov turnoGanado,00h
      
     mov jugadorActual, 49h; establecemos el primer jugador
     mov nivel,00h         ;Le colocamos un cero a la variable del nivel                      
+    
+                    
+        
+    ;Variables para mostrar el puntuaje
+    mov puntosAux, 000
+    
+    mov Cen1,30h 
+    mov Dece1 , 30h 
+    mov Uni1 , 30h 
+    
+    mov Cen2 , 30h
+    mov Dece2 , 30h
+    mov Uni2 , 30h 
+    
+    mov Cen3 , 30h 
+    mov Dece3 , 30h
+    mov Uni3 , 30h 
+            
+    mov Cen4 , 30h 
+    mov Dece4 , 30h
+    mov Uni4 , 30h 
                           
+    ;Puntos maximos de la matriz                              
+    mov puntosMaxNivel1 , 10h     ;16 
+    mov puntosMaxNivel2 , 51h     ;81
+    mov puntosMaxNivel3 , 015Fh   ;351      
+    mov turnoGanado , 00h
+    
+    ;aux para rol del juego
+    mov jugadorActual , 49h
+     
+    ;aux para posiciones de pantalla  mxn
+    mov fila , 48
+    mov columna ,48
+                      
     colores 7             ;Color gris
     jmp start             ;Saltamos a la etiqueta
 
@@ -879,8 +987,16 @@ INFO1:;informacion del usuario 1 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntosA1       ;puntos obtenidos                        
-                            
+    imprime cen1    
+                     
+    gotoxy 29h,17h
+    imprime dece1 
+        
+    gotoxy 2ah,17h
+    imprime uni1      ;puntos obtenidos                        
+    
+    gotoxy 2bh,17h
+    imprime limpiarUltima                        
     ret                        
 
 ;______________________________________________________________________________
@@ -896,8 +1012,16 @@ INFO2:;informacion del usuario 2 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntosB1       ;puntos obtenidos                        
-                            
+    imprime cen2    
+                     
+    gotoxy 29h,17h
+    imprime dece2 
+        
+    gotoxy 2ah,17h
+    imprime uni2      ;puntos obtenidos                        
+    
+    gotoxy 2bh,17h
+    imprime limpiarUltima                                        
     ret                        
 
 ;______________________________________________________________________________
@@ -913,8 +1037,16 @@ INFO3:;informacion del usuario 3 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntosC1       ;puntos obtenidos                        
+    imprime cen3    
+                     
+    gotoxy 29h,17h
+    imprime dece3 
+        
+    gotoxy 2ah,17h
+    imprime uni3      ;puntos obtenidos                        
                             
+    gotoxy 2bh,17h
+    imprime limpiarUltima                        
     ret                        
 
 ;______________________________________________________________________________
@@ -930,9 +1062,16 @@ INFO4:;informacion del usuario 4 para cuando esta en el rol
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime puntosD1       ;puntos obtenidos                        
-                            
-
+    imprime cen4    
+                     
+    gotoxy 29h,17h
+    imprime dece4 
+        
+    gotoxy 2ah,17h
+    imprime uni4      ;puntos obtenidos                        
+               
+    gotoxy 2bh,17h
+    imprime limpiarUltima                        
     ret                        
 ;______________________________________________________________________________
 VERIFICARRESTRICCIONES:;se establecen las restricciones para la logica de los niveles
@@ -1265,10 +1404,11 @@ DIBUJARArriba proc near: ;P
         
         call actualizarDatos
         call verificarGanador
+        ;call restarPuntos
         mov turnoGanado,01h
         
         jmp comparacion4      ;comparamos abajo
-       
+        
 endp
 ;______________________________________________________________________________ 
 DIBUJARABAJO proc near:
@@ -1297,6 +1437,7 @@ DIBUJARABAJO proc near:
         
         call sumarPuntos   
         call actualizarDatos
+        ;call restarPuntos
         cmp turnoGanado,01h
         je otraVez           ;sI 
         
@@ -1520,6 +1661,7 @@ DIBUJARIZQUIERDA proc near:
         call sumarPuntos
         ;imprime player1        ;$$$$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
         call actualizarDatos
+        ;call restarPuntos
         mov turnoGanado,01h
         
         jmp comparacion10 
@@ -1550,9 +1692,9 @@ DIBUJARDERECHA proc near:
         int 10h                              
         
         call sumarPuntos
-        ;imprime player1        ;$$$$$$$FALTA INCREMENTAR PTS Y RESTAR LAS POSIBILIDADES PARA GANAR
-        call actualizarDatos
         
+        call actualizarDatos
+        ;call restarPuntos
         cmp turnoGanado,01h
         je otraVez             ;Verifica si gano un turno mas
         
@@ -1647,121 +1789,159 @@ LadoAba3:                  ;comparamos el valor de y con los limites finales de 
 ;______________________________________________________________________________                             
 SUMAR1 proc near:
         
-        cmp puntos1,09h
-        je  aumentarDecimas
-        
+        cmp puntos1,39h
+        je aumentarDec1
         add puntos1,01h
-        
-        mov si,2h
         mov ch,puntos1
-        mov puntosA1[si],ch
-        ret
-         
-aumentarDecimas:
-
-        mov si,01h
-        cmp puntosA1[si],09h
-        je  aumentarCentecimas
-        add puntosA1[si],01h
-        ret   
+        mov uni1,ch
+        jmp resultado1
         
-aumentarCentecimas:
-
-        mov si,00h
-        add puntosA1[si],01h
-        ret   
-
+    aumentarDec1:
+        mov puntos1,30h
+        mov uni1, 30h
+        
+        cmp dece1,39h
+        je aumentarCen1
+        add dece1, 01h
+        jmp resultado1 
+        
+    aumentarCen1:
+        mov dece1,30h
+        add cen1,01h
+        jmp resultado1
+    
+    resultado1:
+        gotoxy 28h,17h
+        imprime cen1    
+                     
+        gotoxy 29h,17h
+        imprime dece1 
+        
+        gotoxy 2ah,17h
+        imprime uni1
+        ret              
         
 endp
 
 ;______________________________________________________________________________                             
 SUMAR2 proc near:
         
-        cmp puntos2,09h
-        je  aumentarDecimas2
-        
+        cmp puntos2,39h
+        je aumentarDec2
         add puntos2,01h
+        mov ch,puntos2
+        mov uni2,ch
+        jmp resultado2
         
-        mov si,2h
-        mov ch, puntos2
-        mov puntosB1[si],ch
+    aumentarDec2:
+        mov puntos2,30h
+        mov uni2, 30h
+        
+        cmp dece2,39h
+        je aumentarCen2
+        add dece2, 01h
+        jmp resultado2 
+        
+    aumentarCen2:
+        mov dece2,30h
+        add cen2,01h
+        jmp resultado2
+    
+    resultado2:
+        gotoxy 28h,17h
+        imprime cen2    
+                     
+        gotoxy 29h,17h
+        imprime dece2 
+        
+        gotoxy 2ah,17h
+        imprime uni2 
         ret
-         
-aumentarDecimas2:
-
-        mov si,01h
-        cmp puntosB1[si],09h
-        je  aumentarCentecimas2
-        add puntosB1[si],01h
-        ret   
-        
-aumentarCentecimas2:
-
-        mov si,00h
-        add puntosB1[si],01h
-        ret   
-
-        
+       
 endp
 ;______________________________________________________________________________                             
 
 
 ;______________________________________________________________________________                             
 SUMAR3 proc near:
-        
-        cmp puntos3,09h
-        je  aumentarDecimas3
-        
+        cmp puntos3,39h
+        je aumentarDec3
         add puntos3,01h
+        mov ch,puntos3
+        mov uni3,ch
+        jmp resultado3
         
-        mov si,2h
-        mov ch, puntos3
-        mov puntosC1[si],ch
+    aumentarDec3:
+        mov puntos3,30h
+        mov uni3, 30h
+        
+        cmp dece3,39h
+        je aumentarCen3
+        add dece3, 01h
+        jmp resultado3 
+        
+    aumentarCen3:
+        mov dece3,30h
+        add cen3,01h
+        jmp resultado3
+    
+    resultado3:
+        gotoxy 28h,17h
+        imprime cen3    
+                     
+        gotoxy 29h,17h
+        imprime dece3 
+        
+        gotoxy 2ah,17h
+        imprime uni3 
         ret
-         
-aumentarDecimas3:
-
-        mov si,01h
-        cmp puntosC1[si],09h
-        je  aumentarCentecimas3
-        add puntosC1[si],01h
-        ret   
+        ;add puntos3,01h
         
-aumentarCentecimas3:
-
-        mov si,00h
-        add puntosC1[si],01h
-        ret   
+        ;score puntos3 ,Cen3, Dece3 ,Uni3
+        ;ret
+   
 
         
 endp
 
 ;______________________________________________________________________________                             
 SUMAR4 proc near:
-        
-        cmp puntos4,09h
-        je  aumentarDecimas4
-        
+        cmp puntos4,39h
+        je aumentarDec4
         add puntos4,01h
-        
-        mov si,2h
         mov ch,puntos4
-        mov puntosD1[si],ch
-        ret
-         
-aumentarDecimas4:
-
-        mov si,01h
-        cmp puntosD1[si],09h
-        je  aumentarCentecimas4
-        add puntosD1[si],01h
-        ret   
+        mov uni4,ch
+        jmp resultado4
         
-aumentarCentecimas4:
-
-        mov si,00h
-        add puntosD1[si],01h
-        ret   
+    aumentarDec4:
+        mov puntos4,30h
+        mov uni4, 30h
+        
+        cmp dece4,39h
+        je aumentarCen4
+        add dece4, 01h
+        jmp resultado4 
+        
+    aumentarCen4:
+        mov dece4,30h
+        add cen4,01h
+        jmp resultado4
+    
+    resultado4:
+        gotoxy 28h,17h
+        imprime cen4    
+                     
+        gotoxy 29h,17h
+        imprime dece4 
+        
+        gotoxy 2ah,17h
+        imprime uni4 
+        ret
+        ;add puntos4,01h
+        
+        ;score puntos4 ,Cen4, Dece4 ,Uni4
+        ;ret
+  
 
         
 endp
@@ -2122,7 +2302,40 @@ OBTENERPOSICION proc near:;Proceso para guardar en variables las posiciones del 
 
     ret
 endp
+ 
 
+;______________________________________________________________________________
+RESTARPUNTOS proc near:                                                        
+    cmp nivel,31h
+    je restar1
+    
+    cmp nivel,32h
+    je  restar2
+    
+    cmp nivel,33h
+    je  restar3
+    push ax
+    restar1:
+    mov ax, puntosMaxNivel1
+    sub ax, 1
+    mov puntosMaxNivel1,ax 
+    pop ax
+    ret
+           
+    restar2:
+    mov ax, puntosMaxNivel2
+    sub ax, 1
+    mov puntosMaxNivel2,ax 
+    pop ax
+    ret
+    
+    restar3:
+    mov ax, puntosMaxNivel3
+    sub ax, 1
+    mov puntosMaxNivel3,ax 
+    pop ax
+    ret
+endp    
 ;______________________________________________________________________________
  SIGNOPAR proc near:
     
