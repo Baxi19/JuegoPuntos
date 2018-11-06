@@ -71,41 +71,5 @@ COLORES MACRO COL
          	int 10h
 ENDM
 ;*******************************************************
-Score  Macro PuntosAux Cen, Dece ,Uni  ;Macro para imprimir el puntaje
-	
-	push ax
-	push dx
 
-	gotoxy 28h,17h
-     
-	mov al,PuntosAux 
-
-   	aam
-    	mov uni,al
-    	mov al,ah
-   	
-	aam
-    	mov cen,ah
-    	mov dece,al
-    
-    	mov ah,02h
-    
-   	 mov dl,cen
-   	 add dl,30h ; se suma 30h a dl para imprimir el numero real.
-    	 int 21h
-    
-   	 mov dl,dece
-   	 add dl,30h
-   	 int 21h
-    
- 	 mov dl,uni
- 	 add dl,30h
-  	 int 21h
-    	gotoxy 28h,17h
-	imprime PuntosAux
-
-	pop dx
-	pop ax
-endm
-   
 ;*****************************************************************************************   

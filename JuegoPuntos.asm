@@ -577,13 +577,13 @@ GAME2: ;Inicio de la logica del juego
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
     
-    cmp puntosMaxNivel1,0
+    cmp puntosMaxNivel1,0 ;Se comparan los puntos del nivel 1
     je ganador
     
-    cmp puntosMaxNivel2,0
+    cmp puntosMaxNivel2,0 ;Se comparan los puntos del nivel 2
     je ganador
     
-    cmp puntosMaxNivel3,0
+    cmp puntosMaxNivel3,0 ;Se comparan los puntos del nivel 3
     je ganador
     
     cmp al,00             ;Compara si no se ingresaron teclas
@@ -697,13 +697,13 @@ GAME3: ;Inicio de logica del juego
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
     
-    cmp puntosMaxNivel1,0
+    cmp puntosMaxNivel1,0 ;Se comparan los puntos del nivel 1
     je ganador
     
-    cmp puntosMaxNivel2,0
+    cmp puntosMaxNivel2,0 ;Se comparan los puntos del nivel 2
     je ganador
     
-    cmp puntosMaxNivel3,0
+    cmp puntosMaxNivel3,0 ;Se comparan los puntos del nivel 3
     je ganador
     
     cmp al,00             ;Compara si no se ingresaron teclas
@@ -805,12 +805,6 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     mov dl,255            ;se define los caracteres de la tabla ascii
     int 21h               ;INT teclado
     
-    cmp al,52h            ;Compara con R
-    je rendirse           ;Si es igual salta
-
-    cmp al,72h            ;Compara con r
-    je rendirse           ;Si es igual salta
-    
     cmp al,43h            ;Compara con C
     je resetApp           ;Si es igual salta
 
@@ -823,13 +817,13 @@ GAME4:;Inicio de la logica del juego para 4 jugadores
     cmp al,71h            ;Compara con q
     je salir              ;Si es igual salta
 
-    cmp puntosMaxNivel1,0
+    cmp puntosMaxNivel1,0  ;Se comparan los puntos del nivel 1
     je ganador
     
-    cmp puntosMaxNivel2,0
+    cmp puntosMaxNivel2,0  ;Se comparan los puntos del nivel 2
     je ganador
     
-    cmp puntosMaxNivel3,0
+    cmp puntosMaxNivel3,0  ;Se comparan los puntos del nivel 3
     je ganador
     
     cmp al,00             ;Compara si no se ingresaron teclas
@@ -854,11 +848,16 @@ INFORENDIDO1: ;Informacin cuando un jugador se rinde
     imprime player2       ;caracter
     
     gotoxy 2eh,0ah
-    imprime color         ;puntos                       
-                            
-    gotoxy 38h,0ah
-    imprime puntos2       ;puntos obtenidos 
+    imprime color        ;puntos obtenidos 
     
+    gotoxy 38h,0ah
+    imprime cen1    
+                     
+    gotoxy 39h,0ah
+    imprime dece1 
+        
+    gotoxy 3ah,0ah
+    imprime uni1  
     
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
@@ -1003,11 +1002,16 @@ INFORENDIDO2: ;Informacin cuando un jugador se rinde
     
     gotoxy 2eh,0ah
     imprime color         ;puntos                       
-                            
-    gotoxy 38h,0ah
-    imprime puntos1       ;puntos obtenidos    
      
-    
+    gotoxy 38h,0ah
+    imprime cen1    
+                     
+    gotoxy 39h,0ah
+    imprime dece1 
+        
+    gotoxy 3ah,0ah
+    imprime uni1
+     
     mov servicio,06h      ;Salidas o entradas Teclado
     mov ah,1              ;Esperamos que se digite una tecla
     Int 21h               
@@ -1080,7 +1084,9 @@ RESETAPP:                 ;Reinicia el juego
     mov puntosMaxNivel3 , 015Fh   ;351      
     mov turnoGanado , 00h
     
-    
+    mov SignoP , 17h
+    mov SignoI , 1dh 
+    mov Signo , 17h
     
     ;aux para rol del juego
     mov jugadorActual , 49h
@@ -1098,20 +1104,37 @@ INFO1:;informacion del usuario 1 para cuando esta en el rol
     gotoxy 00h,17h
     imprime jugador       ;Texto = jugador 
     
+    call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
     gotoxy 09h,17h
-    imprime player1       ;caracter selecionado
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, player1         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
     
     gotoxy 1Eh,17h
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime cen1    
-                     
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, cen1         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 29h,17h
-    imprime dece1 
-        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, dece1         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 2ah,17h
-    imprime uni1      ;puntos obtenidos                        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, uni1         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h     ;puntos obtenidos                        
     
     gotoxy 2bh,17h
     imprime limpiarUltima                        
@@ -1123,20 +1146,37 @@ INFO2:;informacion del usuario 2 para cuando esta en el rol
     gotoxy 00h,17h
     imprime jugador       ;Texto = jugador 
     
+    call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
     gotoxy 09h,17h
-    imprime player2       ;caracter selecionado
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, player2         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h     ;caracter selecionado
     
     gotoxy 1Eh,17h
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime cen2    
-                     
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, cen2         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 29h,17h
-    imprime dece2 
-        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, dece2         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 2ah,17h
-    imprime uni2      ;puntos obtenidos                        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, uni2        ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h      ;puntos obtenidos                        
     
     gotoxy 2bh,17h
     imprime limpiarUltima                                        
@@ -1148,20 +1188,37 @@ INFO3:;informacion del usuario 3 para cuando esta en el rol
     gotoxy 00h,17h
     imprime jugador       ;Texto = jugador 
     
+    call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
     gotoxy 09h,17h
-    imprime player3       ;caracter selecionado
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, player3         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
     
     gotoxy 1Eh,17h
     imprime color         ;Texto = puntos                       
                             
     gotoxy 28h,17h
-    imprime cen3    
-                     
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, cen3         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 29h,17h
-    imprime dece3 
-        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, dece3         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 2ah,17h
-    imprime uni3      ;puntos obtenidos                        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, uni3         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h      ;puntos obtenidos                        
                             
     gotoxy 2bh,17h
     imprime limpiarUltima                        
@@ -1173,23 +1230,43 @@ INFO4:;informacion del usuario 4 para cuando esta en el rol
     gotoxy 00h,17h
     imprime jugador       ;Texto = jugador 
     
-    gotoxy 09h,17h
-    imprime player4       ;caracter
+    call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
     
-    gotoxy 1Eh,17h
-    imprime color         ;Texto = puntos                       
-                            
+    
+    gotoxy 09h,17h
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, player4         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
+    gotoxy 1eh,17h
+    imprime color         ;Se carga el caracter
+    
     gotoxy 28h,17h
-    imprime cen4    
-                     
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, cen4         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 29h,17h
-    imprime dece4 
-        
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, dece4         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+    
     gotoxy 2ah,17h
-    imprime uni4      ;puntos obtenidos                        
-               
+    mov ah, 09h           ;Escribe el caracter en la posicion del cursor
+    mov al, uni4         ;Se carga el caracter
+    mov bl, col           ;Color del jugador
+    mov cx, 01h           ;Cantidad de veces que se va a imprimir
+    int 10h
+   
     gotoxy 2bh,17h
-    imprime limpiarUltima                        
+    imprime limpiarUltima   
+                         
     ret                        
 ;______________________________________________________________________________
 VERIFICARRESTRICCIONES:;se establecen las restricciones para la logica de los niveles
@@ -1520,7 +1597,8 @@ DIBUJARArriba proc near: ;P
         
         call sumarPuntos   
         
-        call actualizarDatos
+        call ANALIZARMENU
+        
         call verificarGanador
         
         mov turnoGanado,01h
@@ -1554,10 +1632,10 @@ DIBUJARABAJO proc near:
              
         
         call sumarPuntos   
-        call actualizarDatos
+        call ANALIZARMENU
        
-        cmp turnoGanado,01h
-        je otraVez          
+        MOV turnoGanado,01h
+        call ANALIZARROL          
         
        
 endp
@@ -1778,7 +1856,7 @@ DIBUJARIZQUIERDA proc near:
         
         call sumarPuntos
              
-        call actualizarDatos
+        call ANALIZARMENU
       
         mov turnoGanado,01h
         
@@ -1800,7 +1878,7 @@ DIBUJARDERECHA proc near:
                                ;(x) , (y+1)
         ADD auxX,01H
        
-       call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
+        call VERIFICARJUGADOR ;Verifica el jugador actual para selecionar el color
         gotoxy auxx,auxy      ;Vamos a la posicion                            
         
         mov ah, 09h           ;Escribe el caracter en la posicion del cursor
@@ -1811,10 +1889,11 @@ DIBUJARDERECHA proc near:
         
         call sumarPuntos
         
-        call actualizarDatos
+        call ANALIZARMENU
        
-        cmp turnoGanado,01h
-        je otraVez             ;Verifica si gano un turno mas
+        MOV turnoGanado,01h
+        call ANALIZARROL
+       
         
        
         
@@ -1826,11 +1905,15 @@ ANALIZARROL proc near:
         cmp turnoGanado,01h
         je otraVez             ;Verifica si gano un turno mas 
         
-        
-        call siguienteJugador  ;Avanzamos al siguiente jugador
-
+        jmp siguiente
 endp
 ;______________________________________________________________________________   
+SIGUIENTE:
+
+        
+        call siguienteJugador  ;Avanzamos al siguiente jugador  
+        
+
 OTRAVEZ:
 
        mov turnoGanado,00h
@@ -2157,6 +2240,7 @@ MATRIZ10X10 proc near: ;Proceso para imprimir matrix de 10 x 10
        dec fila 
        gotoxy columna,fila
        imprime limpiarUltimaLinea
+       call menu
        ret                 ;si es igual finalizamos el proceso
 endp
 ;______________________________________________________________________________                           
@@ -2193,6 +2277,19 @@ SONIDO proc near:;Crea un sonido si la tecla es diferente a las que dice el menu
 
        ret
 endp                       ;Cierre de proceso
+;______________________________________________________________________________
+ANALIZARMENU PROC NEAR:
+    
+        cmp numeroJugadores, 32h;Con el 2 
+        jne call menu
+    
+        cmp numeroJugadores, 32h;Con el 2 
+        je call menu2
+         
+        ret
+ 
+    
+endp
 ;______________________________________________________________________________
 MENU proc near:;Proceso que imprime el menu y las instrucciones
     
@@ -2251,7 +2348,7 @@ MENU2 proc near:;Proceso que imprime el menu para 2 jugadores para la opcion de 
     gotoxy 00h,16h
     imprime opciones1     ;Imprime linea
     
-     
+    actualizarDatos2 proc near: 
     ;Se compara el jugador que esta en el turno
     cmp jugadorActual, 49h;Con el 1 
     je info1              ;Se imprime la info
@@ -2265,7 +2362,8 @@ MENU2 proc near:;Proceso que imprime el menu para 2 jugadores para la opcion de 
     cmp jugadorActual, 52h;Con el 4 
     je info4              ;Se imprime la info
     
-    ret              
+    ret
+    endp              
 endp 
 ;______________________________________________________________________________                             
 SIGUIENTEJUGADOR proc near: ;Proceso para pasar al siguiente jugador
@@ -2284,12 +2382,12 @@ ROL2:
     cmp jugadorActual,049h ;Comparamos con 1
     jne jugador22           
     mov jugadorActual,050h ;Si es igual movemos al siguiente
-    call menu
+    call menu2
     ret
     
     jugador22:       
     mov jugadorActual,049h ;Si no es ninguno de los anteriores es el #2 y se actualiza la posicion
-    call menu
+    call menu2
     ret
                            ;Si es igual se actualiza el color
 
@@ -2506,17 +2604,17 @@ endp
 ;______________________________________________________________________________               
  verificarGanador proc near: 
     
-    call leer_numero1
-	call leer_numero2
-	call leer_numero3
-	call leer_numero4
+    ;call leer_numero1
+	;call leer_numero2
+	;call leer_numero3
+	;call leer_numero4
 	;==================
      leer_numero1:
         mov cl,player1
         mov caracterAux,cl
         mov al,puntosAux1
 		mov numeroMayor,al 
-		ret
+		;ret
                        
     ;==================
      leer_numero2:
@@ -2524,7 +2622,7 @@ endp
         mov al,puntosAux2
 		cmp al, numeroMayor
         ja Comparacion
-        ret
+        ;ret
     
     ;==================
      leer_numero3:
@@ -2532,7 +2630,7 @@ endp
         mov al,puntosAux3
 		cmp al, numeroMayor
         ja Comparacion  
-        ret
+        ;ret
     
     ;==================                       
      leer_numero4:
